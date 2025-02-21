@@ -1,0 +1,327 @@
+[
+  {
+    "Bruker_id": "docdoni",
+    "Passord": "scrypt:32768:8:1$He4SpuwIAmTZSsSO$83005c528786751cea84d657e27c8f3cb709a93e6df5e6e7041d342385c08939e219852744af004f8075d966f4a1f771a38ad5ce40d18f526d2ef88ae234354b",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyad",
+    "Passord": "scrypt:32768:8:1$jdWbKgrvefse9iM4$b473f9f9fa749dc08a57be058243d2343fc48e42735c37a920b7b007493de2ff4b071f1ad90e5104b05122d8d7d7a7200ca4b77ef16d96fc439c40be3eb44782",
+    "Mod": "True"
+  },
+  {
+    "Bruker_id": "Vuyadfs",
+    "Passord": "scrypt:32768:8:1$TJNbsjA5RirjnWyc$c4bf3b52bacbf8c09a2dde48b2bd82654e17ce6a0385b1d9dd28c7c9ac7d22d97f38d09338046861c4c78772c172ce2c518f5c6e7d25fe3977a41c8ded9d9116",
+    "Mod": "True"
+  },
+  {
+    "Bruker_id": "Vuyadfsit",
+    "Passord": "scrypt:32768:8:1$cNh8SwDwP5Vm9jv7$c18dc7b574322b1a2d1ad864362e43e84600170cc97da4fe134a19cde15d0aca189d503cfea7ded213534df2aba4ecadc6e7d010c7bcd5bcd7d44e113c6e4e80",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "KLfui",
+    "Passord": "scrypt:32768:8:1$8g2Jt4eVjhrn7sYf$0db8fab9f357fd8fb7e207d9f3e63c6d8b55f62909b24b04500c9f2240333783d976756dbc38e9babea5eb4500035766d3a50a0d9b191ceebfe855e0a76fc58b",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Xenobladefan1776",
+    "Passord": "scrypt:32768:8:1$kGsuw8l1Wtd9eKjF$d64846c8430855e2058401a7e42e32a065312f19e36a57ea2930408258079eebbb7befb7a4f884d095b57a16eeafcf5cebf5b377741de43f0e470390b2eac576",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Trueuser",
+    "Passord": "scrypt:32768:8:1$1fC1sv7t5Zx4gIfo$8432b86d81e4f0dcc50c8c20fb7423d122445806e44b564751380e1f0f9571e14be3d0470f4e52a3220caa76aba2726cae89281546d02ef80bc8d3eca7046b57",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Armand",
+    "Passord": "pbkdf2:sha256:260000$BebjreRZGq6fYLsX$7ff19490cc0c1de71586835009fdeffda09c8b21ab43a30633abf932ba9ff23a",
+    "Mod": "True"
+  },
+  {
+    "Bruker_id": "grrrr",
+    "Passord": "pbkdf2:sha256:260000$58pVCTp8JYpkxQ3o$f62b988dc22c2cba334b5ed095832465f3625e5807c9be0948755628a46ea231",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadfshjk",
+    "Passord": "scrypt:32768:8:1$6AVsQ08M8QQyyL45$cd9868dd9cf2f842ba9fcce38185ad9d64b8e8213c10d98bbf3a1f52281bd39bde42958306a6e708567fef8ce6da3948da4e292273447509ca31546fed88131a",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "NNUEIFN",
+    "Passord": "scrypt:32768:8:1$Cr1iGLJU9Wsv4Dgx$75df5064272d4d8708246f3e0130d78832243d0a5cd82940fcd175a58206e5d9f4dd1701e3a8d0efce633eb02fd218ded683c9457a1b145191fe67626061637a",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Mordi",
+    "Passord": "pbkdf2:sha256:260000$zLkNP9hvXX18Etaa$8dc4bb08cb23d6348c1aadfa247f7ad333ece99416758e32d9febb45ca56221e",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "heihei",
+    "Passord": "pbkdf2:sha256:260000$J7PMayg84xen5Pzb$0582ed03d51fdd5117df81eceff9de12d632c0fdb26bba9e59a9a48865da7527",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "heieih",
+    "Passord": "pbkdf2:sha256:260000$wxfSOpZTsOhPFOG9$d49f7c6096345336eed8c04820f91d5b0fecb4c7b25adc60f719408672cecc21",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadfsjkmo",
+    "Passord": "scrypt:32768:8:1$Dt9VGyLrX43L1csy$d9abf7b985e1366abde90a9a7dc81a00b76dfb60f52adb6a2e048bd2b41d1e625af93df5ea30baa1dd20556d3eaa096c7f78fff4e3f1b0bbb5a8b5eaaacbe1a0",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "JojoSiwa",
+    "Passord": "pbkdf2:sha256:260000$4svlgdTN8sq7gAcB$0ad6af2d7119270199ccb3518fbc6bf95d5c09b4d71bb1ec9367471925a56a27",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "ghfhdj",
+    "Passord": "pbkdf2:sha256:260000$8gJYwxtkgmoCRfDM$68180cc4bb78e7abd7a50b3d9d4ac823d8f925e1bbcf8e60de5467314b0c7751",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Nytester",
+    "Passord": "pbkdf2:sha256:260000$2sQMBHSKreN4hBjW$418c5bfd52be37e68d4e8be4d0c06d75dc86654dd03082729178328ea190e02d",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Heihei",
+    "Passord": "scrypt:32768:8:1$f58gWkD30iR1DUkH$34bd80e9ba82b46eb816ebc802e32d0e0c3aacefe6dc0b3c15ed52058cbe8c11a68d7841d64ab39a4ce177e9b7a80e43f5c79dbd7bb756f74421d49bdd1b43e9",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Operatest",
+    "Passord": "scrypt:32768:8:1$j60ZNwdNqWAI2bGH$45ab9e9cc47b789df1d71af735f829f2a9c1b4dc38f6e464ba1c6048eb6a74b329fbd988b648ba46764d75d58b4e1e93e87fd168c7f76fbc9d4eed7caaed0f4f",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadfsuio",
+    "Passord": "scrypt:32768:8:1$e7qMkuHqNKE4Ucid$34034e985980e6974f3ae2e9ef41e70f2dc356cf076993e249ddcb3a91e2bea95a9042c2dee6cd819358992f337d0b69a1e63c055a13397757bf6f4b598f67cd",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "vdsjbuvi",
+    "Passord": "scrypt:32768:8:1$zpLm0BnVXziZ7xXY$90e70fc780851af65260db30c23b0ef157ac1ab615c21b7e604bcc6e822831b4418bbae8e8727c464316d72f99cf60003ff028aa6b710068fcbae779aa6f9883",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Skinnyest Arch User",
+    "Passord": "scrypt:32768:8:1$PoBiaGJhRT8ORLK8$d48b8a36ecf9d216753caac45e0a1de4399765a7f9a31e50f56fc2a0a616332cc2681071baad2a16b2e403ba8a2ad2630a8dbe32b03d1244eca13285ea3770c9",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Skinniest arch user",
+    "Passord": "scrypt:32768:8:1$Oz9BV6sK4iMUFiIc$866e878e37b0ecd198b1046e26840f00730edac5d92f9d99edee43fd0732868f0751b405c57bcfc46d1ec0a4f059a3beeb1fa4138dd72f6307291ffd5340854b",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Chadtester",
+    "Passord": "scrypt:32768:8:1$zMnXFxJgI18fe2FZ$39b8acb86572281b989f26abbb6ad238754724f706ed0fd7edf15145d46b5e0fff1155a2e4f8a1aa99f94917443c83c55eff0eddf6138fe0a8df31c9cf08ddfa",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "ka f\u00e5reg\u00e5r",
+    "Passord": "scrypt:32768:8:1$XhKO4hI7baRNKP3j$3fb1ba5e75276cbc1e524b0d2c9a5cb40d9c1e93dcf309d424e039147dd565b310ddf0c90f5f973312c3b651c03de2079f2fff185504f188cc38169c26e77cbe",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadfsfs",
+    "Passord": "scrypt:32768:8:1$E33n70ERYVBLR4is$130730399f5660cb8072b0d34de4e984c83b28c257ca522fd99c568909044961d23cae3fc23239c54013a610c1454231504eafc82806cad2dc25a14157f05d42",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadfsfsda",
+    "Passord": "scrypt:32768:8:1$8nkIicuHTcYY9sTh$9b71a3e7b7f7a0df43dd5df1fdc9572b359811e4347e72941a1387b38a75a7aa0361b9ab5df95a6c0de2096603b4c94c48c6b617d18333330ee5c69d3e5c6510",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Virgil",
+    "Passord": "scrypt:32768:8:1$kyimSrtT5OfdHouI$cba14a3a7f3a50a0b77956a4c541a8cd6abbb31ec6a87fbc0c19541571a3d5fc81b521a02f0c8d68022a4a7ca686ec11444f91cc55acce538a9021a723b08be7",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "krlw",
+    "Passord": "scrypt:32768:8:1$z5S6tiZ8aPqu0xXT$02d27edbd0f67600d57c67e94626c0d8916b6661752651c861b69fcb49b2849255ce7612684c4ef3b331ef08713d494e726b0334574974ff3b21b99f26d10567",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Funked?",
+    "Passord": "scrypt:32768:8:1$AQVnwKeNhKnTUNtL$00b5cd298566c0a5072035b408b813f2f84b44889b19c2f57ae0adc39f0b2bdcbf5802b8a3fd2aecb6576222fef696e4a14c3114f1e09b2b013f94ab5ab1e79e",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "IIIIIIIIIIIIIIIIII",
+    "Passord": "scrypt:32768:8:1$3CRR15HtZrOlphby$096efeb08da92a36be5f0f48b488fc54e92d6416e038bd634994f95a55b3a5a80bfb21365541c7ec032646bc0737aedc18ad780ecf31a5509cb07c4fe0be9cb9",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadas",
+    "Passord": "scrypt:32768:8:1$CXl1hJNP8IxsMLhB$aefa9b157aec1534dda6211d30c0d8a87ee630dde2221884421d4247eb68dfa85b9c3d1a57f9457d2698b0fc950c5dc738128d9b5d0ecba9572a909f6d57e0a7",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "hjnkml",
+    "Passord": "scrypt:32768:8:1$RpljTBWe8FZBJNkb$cdf17dfbe6ff7125540bdf7a6e3d516940887aadf6217dc1560fc1197c4480e3f7de61ed682bd910a11ca873c7540fd0f0613079910947c8f223a782e178a5d0",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadfsyui",
+    "Passord": "scrypt:32768:8:1$ZKQagT7qCMDQ7naA$c3da80786939cbea4828cfa54cb07e906cd6643ab21641fdded2a473c59a1ca86c77fec3728806946e46f8ef7f4d24d2e7b1eb297158cdcda64984c1f6228a64",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Smiling fren",
+    "Passord": "scrypt:32768:8:1$LjX73NF0gH4mQIue$14db5b89c5f7f65bd0ba973f53ce0c6f83bca136c31ce8cf0a5824101f4ba7e8a61e445d9ea88eb40d13a4ed8f910a8fa59e59f0b025f06de3169a82392dad06",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadfsjnkml\u00f8",
+    "Passord": "scrypt:32768:8:1$ywtKxIxEm52H16EF$e40be0a0bf713b1f24a768a8b6532b19bb4163c34cc550abb45e065d2e4e12b620a33f8f195ab744d57324a825d3d30b9a57078294c076261f699697e03fe9f1",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "testfren",
+    "Passord": "scrypt:32768:8:1$i8VLEsQzLiewttj3$0f57a01f767fbbc600129dcfcc7cb9faa741da8bfd2f7e0b7e26be9ae21c9c1fe5d7e51df313eeae785f703c5f9f2a9278e197aa2256d2921cdc806e2327b1d8",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadfsdsa12",
+    "Passord": "scrypt:32768:8:1$97EjpfAHTYAfFk39$6f20bc7608bf42db366aaf431836fd75e71cff03bb866a7906b5568266d5e2b66e795847efdfdf9871dc1a58c31104750e46cfc0078248cb32b46c7439173f65",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuy",
+    "Passord": "scrypt:32768:8:1$vAx72MiTOXzKhovP$7a4039c0f307b3221bf46d7993e2ba37d11a02cd0a63151af0ec74f0011ac9f76c32606ffddf153224eda05ab9d666366872c534de05e9aea903e0f3a509e161",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Marv",
+    "Passord": "scrypt:32768:8:1$NWuKwOvMPUGkP7IX$93189dfb0b32564052157c0ddb48515c8a06d82655515ea03f0964bf63630a92e9224044b7afe9c8b2f63437957d9e7d2d7d0ce9d40a24a6c3b74081e4f2fc5f",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "FUnkd?",
+    "Passord": "scrypt:32768:8:1$G7Yx7L4SHUhtgWZ6$41a58bcb27aa5916a0ea290eb10556ed236d724f430930e3579101e1392e59ef87c4d7adc879faff62ebbd4832f3fb8515c633e4f8eb76a3d54f204a9a6dacc9",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "fren",
+    "Passord": "scrypt:32768:8:1$BxOE7yv1mabCJlTF$17af873b8ec0472f0970e1e5cb6530200a8769d9e619e0c02ec6ad083cb72343b6bb43e27ec3f1dff11c495372e24bd2d5ff39b9c7a057ff4228f34282fd3dc0",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Uniktnavn",
+    "Passord": "scrypt:32768:8:1$rtBr8lsYmHVbmJy8$02a26552798e07c658d8bc70b40a602b32a3a190531b35a3cbbe854fc3210e709a37ad5ec0ce1721fd1d8b59437681ea5061a9aaf92f32128359282402ea7d51",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadfren",
+    "Passord": "scrypt:32768:8:1$nIbdfQAehMKwo8fF$bf6892699aebd882a1a2ebe450ad532cf8515c815cad69ccd53ec39aee6e502aef95ec1c0ebe53fd4353b41dc7ac2c98774147c71cbf50880ee55bfcf1191981",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadfsner",
+    "Passord": "scrypt:32768:8:1$R7oQkn38KEQ2wiqP$aa1a31bb84fc7e6f55dbd5f071037e75ce6257ab01993cafd5898383e4dcacf52e2f2244ce63fc101581eb3663719734ce6e614b11473fcb677a5c10858a69f8",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Heihein",
+    "Passord": "scrypt:32768:8:1$n3dBCc539NdcQ3wJ$51011091f28107944814547fe32392adb7669f5b65aeee2fce13b50371e2c1578eeab9fa177f9314d290aab5f77e5a27bf45928e474676df9740bea195fbf3b8",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Testiculus maximus",
+    "Passord": "scrypt:32768:8:1$jkx8vPgX4oBBsmvo$1ce7b04ebdbbfe71161218489bba4c50970481b5b03136a3c22bb362b4988a5d2be85acf6a4731baa01e7329774ed0a9e94b750c737ca21084f3bb1e27386ede",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "HBO rome crier",
+    "Passord": "scrypt:32768:8:1$jSOTAyn5TfMIRUQO$32dddc95f85103a11bb2ef60d27dd16fd5de410480cae9910d627a1f4fb76576107521e2feac0e143d2ce63afa623ee09f35d09dbbf7a129417ddba061d93f4d",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Registrer?",
+    "Passord": "scrypt:32768:8:1$fKwAZhFDVZNT6mMh$325d2cd4bb0ed93bdca91b16fc86165ffb9984e4517ea3ea2c4b42175a719d07e4d7d7d47c08f410c79c66d6e54d6c0ad8df0826f22ad527caeda501e110efee",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "NNILNrlskn",
+    "Passord": "scrypt:32768:8:1$QIxByMBcp2KbBOCb$2e22cce578017b0b30e3b64e568a217f47fe6538a3a6137eee9ddcae64f817b9e66e5a7d8f53dc646630fab035b57cdc052966b6e037645238d6085c8fd9ae13",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "moewsicus maxismus",
+    "Passord": "scrypt:32768:8:1$IytHoUO3QA2DLpvZ$28a2ffddeae49fe2edb1527e77f9f40629f8cdefca4c306f9d8b32eba69f6abb33beb1632815eb1b1e85bbcded3de32ce2dcaaf5492b5bed85401076a16a8cf4",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Chud",
+    "Passord": "scrypt:32768:8:1$HKQUM2T4Uyx8WX6V$f14feffd45b11716061672fef21c169606b8dcbce18dc617794240c51f03e3df8867a2ea24f77d4baa9099a76edfc387f8182f57f2eb84c982d15df912701e6a",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Heihen",
+    "Passord": "scrypt:32768:8:1$L5l6CHtXwaSq2cNz$99912d129f01a4ee50778ea47876e9175e85aec6ed3cf960a4bd9db8f0113c64d194612b651a6a63ee573acf609efc2e42726b2436f24633735fb6c06451c359",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "uifsojefosin",
+    "Passord": "scrypt:32768:8:1$xjnYHCAh0tceYBiY$202ec95c420e489c6517bde80c605004a2a909558c7cc9c08574b4fb531320dd66b636429d0a679be1b14b051a8d06c8724111c25d4cd252ad20548d9830a486",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Troll",
+    "Passord": "scrypt:32768:8:1$OPlV7qNYnOHlMVaI$772099ed4a2503c5eecfa335059bab479d8cf3d3cf218e5c32b2111d6b7d709029a00308e9291d26a242f669e710ee334f5833a1b95b7e342220526c90eb4e07",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Testbruker1",
+    "Passord": "scrypt:32768:8:1$LgzzVbyq1cOpRhw5$987a3e8b166c0e8f7f2d1acccb074247efaea5e1e2a73eba442504bc1302745a1dca56ff061558f8ca4de1ffe17a00464fbe0ba7f7f0b5601708980e223bda44",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Testadmin",
+    "Passord": "scrypt:32768:8:1$ieU1pF1hga8sURFE$c49433f90e0acc56634fb76e94ad4c3275aa9d825511d26f6c33d063cfee107b6712a7eb46d41cb4a142abf69c06cc537f30333dd5c0842e2625d677c50065fd",
+    "Mod": "True"
+  },
+  {
+    "Bruker_id": "NJKNd",
+    "Passord": "scrypt:32768:8:1$jbDNSOVGHglBya98$746d932676f3fc7660a99ea7f1bd95425343fcce9cfdc6ae4d703cfa50d9a22ff208b8f97a7374cac0e7c12b045dda2ce0d99848746073f4457122df3bbb78d6",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": " ghbjni",
+    "Passord": "scrypt:32768:8:1$cQOuCsy91L7Lrh5x$c3e7c7aec8c8a8648dd878c68ee1b16b8bd009ad3007563cc76d6c8fdcfe104cc78184ae881b021c6effcbd2b6e120afce05c79703c73a1c2b9d9d0f9c1596f5",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": " hbjni",
+    "Passord": "scrypt:32768:8:1$gfXy37cLHBmr2S01$2eecdf5021e97c0c54cf35bf9367efd74ad8e933d649c786a184f97af5b5dcc640afc3aa21d3cdb29300c28738b3897827513f2752701e74a5a6785e320bd406",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Vuyadhbjnko",
+    "Passord": "scrypt:32768:8:1$R6tnNXe7dfvlRKJG$af0437847f75ba99c5b714b330a30954781564c6d9660ec3b281aace6b4d22cde7f6b930c6456edfa27ae7c1a64a91b474a87c54f651b164d5032fad072f2a79",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "Armand2",
+    "Passord": "pbkdf2:sha256:260000$ptAxom7s5cvTRdno$9b3a24b6613ef62376c669996e6679523633f8ed468713586e1398046b62686d",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "",
+    "Passord": "pbkdf2:sha256:260000$Go5QGu3BXJMqZ5nE$1b8b8bf3e8ac5286470dcae7b28d6a958d5e9444c7ede83a615b038973373a61",
+    "Mod": "False"
+  },
+  {
+    "Bruker_id": "hejoooo",
+    "Passord": "pbkdf2:sha256:260000$io75RD80YrnLU7wR$1ac268fe650f15708e50ff4aa6207e98be07674b669d312b96e90d3548ebd92a",
+    "Mod": "False"
+  }
+]
