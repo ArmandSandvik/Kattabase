@@ -1003,6 +1003,9 @@ function logo() {
             logoen = document.createElement("img")
             logoen.setAttribute("src", URL.createObjectURL(blob))
             logoen.setAttribute("id", "logo")
+            logoen.addEventListener("click", () => {
+                location.reload()
+            })
             bildeplass.appendChild(logoen)
         })
 
