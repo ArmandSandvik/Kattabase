@@ -323,5 +323,10 @@
     "Bruker_id": "hejoooo",
     "Passord": "pbkdf2:sha256:260000$io75RD80YrnLU7wR$1ac268fe650f15708e50ff4aa6207e98be07674b669d312b96e90d3548ebd92a",
     "Mod": "False"
+  },
+  {
+    "Bruker_id": "zsdfxgrctyu",
+    "Passord": "scrypt:32768:8:1$mptCJ3cm84uz55Jc$2b0620e9193a25c0fbc4272385eb6beda0e42b6eeae36e452c5b8d99e0ec621bc33fa4e12d84e4bb85b10fda1aa9592ada26fdc67ba58c95e5f8b7b32c963ee7",
+    "Mod": "False"
   }
 ]

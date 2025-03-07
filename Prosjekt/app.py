@@ -1,5 +1,5 @@
-
-from flask import Flask, request, jsonify, session, send_file, abort
+import sqlite3
+from flask import Flask, request, jsonify, session, send_file, abort, g, current_app
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
@@ -380,6 +380,16 @@ def logo():
     except Exception as e:
         abort(500)
 
+
+def get_db():
+    if 'db' not in g:
+        g.db = sqlite3.connect(
+            current_app.config['DATABASE'],
+            detect_types=sqlite3.PARSE_DECLTYPES
+        )
+        g.db.row_factory = sqlite3.Row
+
+    return g.db
     
 
 
