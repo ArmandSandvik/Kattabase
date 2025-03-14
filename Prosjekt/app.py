@@ -13,7 +13,11 @@ app.secret_key = 'Secretkeythatshouldntbeshared36872931'
 #Returnerer en indexfil, Dette er den eneste filen vi bruker
 @app.route("/")
 def index():
+    db = get_db()
+    print(db)
+    db_setup(db)
     return app.send_static_file("index.html")
+
 
 
 #Login
@@ -383,14 +387,37 @@ def logo():
 
 def get_db():
     if 'db' not in g:
-        g.db = sqlite3.connect(
-            current_app.config['DATABASE'],
-            detect_types=sqlite3.PARSE_DECLTYPES
+        g.db = sqlite3.connect('static/Database.db'
         )
         g.db.row_factory = sqlite3.Row
+        if g.db is None:
+            print("Error", g.db)
+        if g.db is not None:
+            print(g.db , "succsessfull connection")
 
     return g.db
+
+def db_setup(db):
+    print("Db_setup kjores")
+    g.db = sqlite3.connect('static/Database.db')
+    cursor = db.cursor()
+    cursor.execute("""CREATE TABLE IF NOT EXISTS Brukere(
+                   Bruker_id varchar(60), 
+                   Passord varchar(124), 
+                   Mod boolean);""")
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = cursor.fetchall()
+    for table in tables:
+        print("Table:", table['name'])
     
+    cursor.execute("PRAGMA table_info(Brukere);")
+    columns = cursor.fetchall()
+
+    for column in columns:
+        print(dict(column))
+
+
+        
 
 
  
