@@ -29,17 +29,26 @@ def login():
         data = request.json
         bruker_id = data.get("Bruker_id")
         passord = data.get("Passord")
+
+        if db_sjekk("Brukere", "Bruker_id", bruker_id) and db_sjekk_passord("Brukere", "Bruker_id", bruker_id, passord, "Passord"):
+            session["username"] = bruker_id
+            print(session["username"])
+            return(bruker_id)
+        else:
+            return ("Feil brukernavn eller passord")
+            
+
         
-        with open("Data/Brukere.json", "r", encoding="UTF8") as brukere:
+        #with open("Data/Brukere.json", "r", encoding="UTF8") as brukere:
             #Laster filen med brukere og og sjekker for hver bruker at bruker_id og passord stemmer til det finner den rette kontoen
-            innlogget = json.load(brukere)
-            for user in innlogget:
-                if user["Bruker_id"] == bruker_id and check_password_hash(user["Passord"],passord):
-                    session["username"] = user["Bruker_id"]
-                    print(session["username"])
-                    return(bruker_id)
+         #   innlogget = json.load(brukere)
+          #  for user in innlogget:
+           #     if user["Bruker_id"] == bruker_id and check_password_hash(user["Passord"],passord):
+            #        session["username"] = user["Bruker_id"]
+             #       print(session["username"])
+              #      return(bruker_id)
                 #gir en feilmelding dersom den ikke finner brukernavn/passord
-            return("Feil brukernavn eller passord!")
+            #return("Feil brukernavn eller passord!")
     #Dersom noe annet er feil gir vi en intern serverfeil
     except:
         abort(500)
@@ -440,6 +449,23 @@ def db_sjekk(table, column, navn):
         if index[0] == navn:
             print("Hello, this is true")
             return True
+    print("hello, i evalute false")
+    
+    return False
+
+def db_sjekk_passord(table, column, navn, passord, column2):
+    conn = sqlite3.connect('static/Database.db')
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT {column}, {column2} FROM {table};")
+    res = cursor.fetchall()
+    print("Jeg kom så langt")
+    for index in res:
+        print("index 0", index[0])
+        print("index 1", index[1])
+        if index[0] == navn:
+            if check_password_hash(index[1], passord):
+                return True
+            
     print("hello, i evalute false")
     
     return False
