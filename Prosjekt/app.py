@@ -3,6 +3,7 @@ from flask import Flask, request, jsonify, session, send_file, abort, g, current
 import json
 from werkzeug.security import generate_password_hash, check_password_hash
 import os
+import re
 
 app=Flask(__name__)
 
@@ -58,7 +59,17 @@ def registrer():
 
         if db_sjekk("Brukere", "bruker_id", bruker_id):
             return ("Brukernavnet er tatt")
+        if re.search(r'[^a-zA-Z0-9]', bruker_id):
+            return("Navn kan bare være tall og/eller nummer")
 
+        if len(bruker_id) <= 3:
+            return("Brukernabnet er for kort")
+        if len(bruker_id) > 12:
+            return("Brukernavnet er for langt")
+        
+        Passord = generate_password_hash(passord)
+
+        db_write("Brukere", "bruker_id", bruker_id, "Passord",Passord, "Mod", "N")
         session["username"] = bruker_id
            
         
@@ -433,6 +444,16 @@ def db_sjekk(table, column, navn):
     
     return False
 
+def db_write(tabel, column1, info1, column2, info2, column3, info3):
+    print("Attempting to establish connections")
+    conn = sqlite3.connect('static/Database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    print("Connextion establisehd")
+    query = f"INSERT INTO {tabel} ({column1}, {column2}, {column3}) VALUES (?,?,?);"
+    cursor.execute(query,(info1, info2, info3))
+    conn.commit()
+    conn.close()
 
  
 
