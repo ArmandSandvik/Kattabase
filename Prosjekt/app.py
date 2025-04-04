@@ -54,28 +54,20 @@ def registrer():
         bruker_id = data.get("Bruker_id")
         passord = data.get("Passord")
         Mod = data.get("Mod")
-        with open("Data/Brukere.json","r") as userlist:
-            users = json.load(userlist)
-            for user in users:
-                #Shekker om brukernavn er tatt
+        db = get_db
 
-                if user["Bruker_id"] == bruker_id :
-                    return ("Brukernavnet er tatt")
+        if db_sjekk("Brukere", "bruker_id", bruker_id):
+            return ("Brukernavnet er tatt")
+
         session["username"] = bruker_id
-        session["Mod"] = user["Mod"]
-
-                
-        ordbok = {'Bruker_id':bruker_id, 'Passord': generate_password_hash(passord), 'Mod': Mod}
-        #Legger til bruker i ordboken dersom Brukernavn ikke er tatt
-        users.append(ordbok) 
            
         
-            
-        newUser = open("Data/Brukere.json","w", encoding="UTF8")
-        json.dump(users,newUser, indent=2)
+        
+        #newUser = open("Data/Brukere.json","w", encoding="UTF8")
+        #json.dump(users,newUser, indent=2)
         session["username"] = bruker_id
 
-        newUser.close()
+        #newUser.close()
         return(bruker_id)
     #Returner bruker id dersom alt er greit
             
@@ -416,8 +408,30 @@ def db_setup(db):
     for column in columns:
         print(dict(column))
 
-
+def db_get(db, tabble):
+    conn = sqlite3.connect('static/Database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    tables = cursor.fetchall()
+    for table in tables:
+        if table['name'] == tabble:
+            print("table:",table['name'])
+            return table
         
+def db_sjekk(table, column, navn):
+    conn = sqlite3.connect('static/Database.db')
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT {column} FROM {table};")
+    res = cursor.fetchall()
+    print("Jeg kom så langt")
+    for index in res:
+        if index[0] == navn:
+            print("Hello, this is true")
+            return True
+    print("hello, i evalute false")
+    
+    return False
 
 
  

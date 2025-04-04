@@ -328,5 +328,10 @@
     "Bruker_id": "zsdfxgrctyu",
     "Passord": "scrypt:32768:8:1$mptCJ3cm84uz55Jc$2b0620e9193a25c0fbc4272385eb6beda0e42b6eeae36e452c5b8d99e0ec621bc33fa4e12d84e4bb85b10fda1aa9592ada26fdc67ba58c95e5f8b7b32c963ee7",
     "Mod": "False"
+  },
+  {
+    "Bruker_id": "jncdal",
+    "Passord": "scrypt:32768:8:1$7kC4UbL88cPCZuI3$aefdde81028441d55310d15680223459a6ffbeea276f2c9f7a36cc6156a9715824e2c1bac61c2921a8418009555c3d27a0e8ba27e2e158152b87deb9f4e911f2",
+    "Mod": "False"
   }
 ]
