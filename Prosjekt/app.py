@@ -38,18 +38,7 @@ def login():
             return ("Feil brukernavn eller passord")
             
 
-        
-        #with open("Data/Brukere.json", "r", encoding="UTF8") as brukere:
-            #Laster filen med brukere og og sjekker for hver bruker at bruker_id og passord stemmer til det finner den rette kontoen
-         #   innlogget = json.load(brukere)
-          #  for user in innlogget:
-           #     if user["Bruker_id"] == bruker_id and check_password_hash(user["Passord"],passord):
-            #        session["username"] = user["Bruker_id"]
-             #       print(session["username"])
-              #      return(bruker_id)
-                #gir en feilmelding dersom den ikke finner brukernavn/passord
-            #return("Feil brukernavn eller passord!")
-    #Dersom noe annet er feil gir vi en intern serverfeil
+       
     except:
         abort(500)
 
@@ -78,7 +67,7 @@ def registrer():
         
         Passord = generate_password_hash(passord)
 
-        db_write("Brukere", "bruker_id", bruker_id, "Passord",Passord, "Mod", "N")
+        db_write("Brukere", "bruker_id", bruker_id, "Passord",Passord, "Mod", "False")
         session["username"] = bruker_id
            
         
@@ -102,31 +91,50 @@ def Lag_kommentar():
     try:
        #Henter data fra AJAX
        data = request.json
-       bruker_id = data.get("Bruker_id")
-       comment = data.get("Comment")
-       media = data.get("media")
+       print("før id")
 
-       KommentarListe = open("Data/Fildump/Kommentarer/Kommentarfil.json","r", encoding="UTF8")
-       kommentarer = json.load(KommentarListe)
+       
+       bruker_id = data.get("Bruker_id")
+       print("Før komment")
+       comment = data.get("Comment")
+       print("før id")
+       id = db_sjekk_kommentar("Kommentarer", "Id")
+
+       try:
+           print("Krasjer denne?")
+           reply = data.get("Reply_To_Comment")
+           print("Vi fikk denne replyen", reply)
+       except:
+           reply = 0
+           print("Dette er etter except:", reply)
+       #media = data.get("media")
+
+       db_write_comment("Kommentarer", "Bruker_id", bruker_id, "Comment", comment, "Reply", reply, "Id", id)
+       print("Dette er etter db_write_comment funksjonen")
+
+
+
+       #KommentarListe = open("Data/Fildump/Kommentarer/Kommentarfil.json","r", encoding="UTF8")
+       #kommentarer = json.load(KommentarListe)
 
        session["username"] = bruker_id
 
        
 
-       if kommentarer:
-            forrige_id = max(int(kommentar["Id"]) for kommentar in kommentarer)
+       #if kommentarer:
+        #    forrige_id = max(int(kommentar["Id"]) for kommentar in kommentarer)
             
        
-       Ny_id = forrige_id +1
+       #Ny_id = forrige_id +1
         #Gir hver kommentar en unik ID
-       ordbok = {'Bruker_id':bruker_id, 'Comment': comment, 'Reply': "False", 'Id': Ny_id , "media" : media} 
+       #ordbok = {'Bruker_id':bruker_id, 'Comment': comment, 'Reply': "False", 'Id': Ny_id , "media" : media} 
 
-       kommentarer.append(ordbok)
+       #kommentarer.append(ordbok)
 
-       NyKommentar = open("Data/Fildump/Kommentarer/Kommentarfil.json","w", encoding="UTF8")
-       json.dump(kommentarer,NyKommentar, indent=2)
-       NyKommentar.close()
-       return jsonify(message="Kommentar lagt til")
+       #NyKommentar = open("Data/Fildump/Kommentarer/Kommentarfil.json","w", encoding="UTF8")
+       #json.dump(kommentarer,NyKommentar, indent=2)
+       #NyKommentar.close()
+       #return jsonify(message="Kommentar lagt til")
     except:
         abort(500)
    
@@ -141,25 +149,28 @@ def edit_kommentar():
         Id = data.get("Id")
         media = data.get("media")
 
-        with open("Data/Fildump/Kommentarer/Kommentarfil.json", "r", encoding="UTF8") as KommentarListe:
-            kommentarer = json.load(KommentarListe)
+        db_edit_kommentar("Kommentarer", Id, comment)
+        return jsonify(message="Kommentar ble endret!")
 
-        fant_kommentaren = False
+        #with open("Data/Fildump/Kommentarer/Kommentarfil.json", "r", encoding="UTF8") as KommentarListe:
+         #   kommentarer = json.load(KommentarListe)
 
-        for kommentar in kommentarer:
-            if (session["username"] == bruker_id or session["Mod"]) and (kommentar["Comment"] == old_comment and kommentar["Id"] == Id):
-                kommentar["Comment"] = comment
-                kommentar["media"] += media
-                fant_kommentaren = True
-                break
+        #fant_kommentaren = False
 
-        if fant_kommentaren:
-            with open("Data/Fildump/Kommentarer/Kommentarfil.json", "w", encoding="UTF8") as NyKommentar:
-                json.dump(kommentarer, NyKommentar, indent=2)
-            return jsonify(message="Kommentar ble endret!")
-        else:
+        #for kommentar in kommentarer:
+         #   if (session["username"] == bruker_id or session["Mod"]) and (kommentar["Comment"] == old_comment and kommentar["Id"] == Id):
+          #      kommentar["Comment"] = comment
+           #     kommentar["media"] += media
+            #    fant_kommentaren = True
+             #   break
+
+        #if fant_kommentaren:
+         #   with open("Data/Fildump/Kommentarer/Kommentarfil.json", "w", encoding="UTF8") as NyKommentar:
+          #      json.dump(kommentarer, NyKommentar, indent=2)
+           # 
+        #else:
             #Gir unik feil dersom kommenaren ikke finnes
-            return jsonify(error="Fant ikke kommentarer du prøver å endre!"), 404
+            #return jsonify(error="Fant ikke kommentarer du prøver å endre!"), 404
     #GIr feilen dersom serveren gjør feil
     except Exception as e:
         return jsonify(error="Crashhh"), 500
@@ -173,33 +184,36 @@ def reply_kommentar():
         data = request.json
         bruker_id = data.get("Bruker_id")
         comment = data.get("Comment")
-        reply_to_comment = data.get("Reply_To_Comment")
-        reply = data.get("Reply")
-        media = data.get("media")
+        id = db_sjekk_kommentar("Kommentarer", "Id")
+        #reply_to_comment = data.get("Reply_To_Comment")
+        reply = data.get("Reply_To_Comment")
+        print("Her kommer reply:", reply)
+        #media = data.get("media")
 
-        KommentarListe = open("Data/Fildump/Kommentarer/Kommentarfil.json","r", encoding="UTF8")
-        kommentarer = json.load(KommentarListe)
+        #KommentarListe = open("Data/Fildump/Kommentarer/Kommentarfil.json","r", encoding="UTF8")
+        #kommentarer = json.load(KommentarListe)
 
-        fant_kommentaren = False
-        if kommentarer:
-            forrige_id = max(int(kommentar["Id"]) for kommentar in kommentarer)
+        db_write_comment("Kommentarer", "Bruker_id", bruker_id, "Comment", comment, "Reply", reply, "Id", id)
+
+        #fant_kommentaren = False
+        #if kommentarer:
+         #   forrige_id = max(int(kommentar["Id"]) for kommentar in kommentarer)
             
-        Ny_id = forrige_id +1
+        #Ny_id = forrige_id +1
 
-        for kommentar in kommentarer:
-            if (session["username"] == bruker_id or session["Mod"]) and kommentar["Id"] == reply_to_comment:
-                fant_kommentaren = True
-                break
+        #for kommentar in kommentarer:
+         #   if (session["username"] == bruker_id or session["Mod"]) and kommentar["Id"] == reply_to_comment:
+          #      fant_kommentaren = True
+           #     break
 
-        if fant_kommentaren:
-            ordbok = {'Bruker_id':bruker_id, 'Comment': comment, 'Reply': reply, 'Id': Ny_id, 'Reply_to_comment': reply_to_comment, 'media' : media} 
+        #if fant_kommentaren:
+            #ordbok = {'Bruker_id':bruker_id, 'Comment': comment, 'Reply': reply, 'Id': Ny_id, 'Reply_to_comment': reply_to_comment, 'media' : media} 
+            #kommentarer.append(ordbok)
 
-            kommentarer.append(ordbok)
-
-            NyKommentar = open("Data/Fildump/Kommentarer/Kommentarfil.json","w", encoding="UTF8")
-            json.dump(kommentarer,NyKommentar, indent=2)
-            NyKommentar.close()
-            return jsonify(message="Kommentar lagt til")
+            #NyKommentar = open("Data/Fildump/Kommentarer/Kommentarfil.json","w", encoding="UTF8")
+            #json.dump(kommentarer,NyKommentar, indent=2)
+            #NyKommentar.close()
+            #return jsonify(message="Kommentar lagt til")
 
     except:
         abort(500)
@@ -212,24 +226,29 @@ def slett_kommentar():
        bruker_id = data.get("Bruker_id")
        comment = data.get("Comment")
        Id = data.get("Id")
-       
-       with open("Data/Fildump/Kommentarer/Kommentarfil.json", "r", encoding="UTF8") as KommentarListe:
-            kommentarer = json.load(KommentarListe)
 
-       fant_kommentaren=False
-       
-       for kommentar in kommentarer:
-            if (session["username"] == bruker_id or session["Mod"]) and (kommentar["Comment"] == comment and kommentar["Id"] == Id):
-                kommentarer.remove(kommentar)
-                fant_kommentaren = True
-                break
+       db_slett_kommentar("Kommentarer", Id)
+       return jsonify(message="Kommentar ble endret!")
 
-       if fant_kommentaren:
-            with open("Data/Fildump/Kommentarer/Kommentarfil.json", "w", encoding="UTF8") as NyKommentar:
-                json.dump(kommentarer, NyKommentar, indent=2)
-            return jsonify(message="Kommentar ble endret!")
-       else:
-            return jsonify(error="Fant ikke kommentarer du prøver å endre!"), 404
+
+       
+       #with open("Data/Fildump/Kommentarer/Kommentarfil.json", "r", encoding="UTF8") as KommentarListe:
+        #    kommentarer = json.load(KommentarListe)
+
+       #fant_kommentaren=False
+       
+       #for kommentar in kommentarer:
+        #    if (session["username"] == bruker_id or session["Mod"]) and (kommentar["Comment"] == comment and kommentar["Id"] == Id):
+        #        kommentarer.remove(kommentar)
+        #        fant_kommentaren = True
+        #        break
+
+       #if fant_kommentaren:
+        #    with open("Data/Fildump/Kommentarer/Kommentarfil.json", "w", encoding="UTF8") as NyKommentar:
+        #        json.dump(kommentarer, NyKommentar, indent=2)
+        
+       #else:
+       #     return jsonify(error="Fant ikke kommentarer du prøver å endre!"), 404
 
     except Exception as e:
         print("Error:", e)
@@ -266,29 +285,37 @@ def Last_opp():
 #Henter kommentarene
 @app.route("/hent_kommentarer", methods=['GET'])
 def hent_kommentar():
-    KommentarListe = open("Data/Fildump/Kommentarer/Kommentarfil.json","r", encoding="UTF8")
-    kommentarer = json.load(KommentarListe)
-    return jsonify(kommentarer)
+
+    Kommentarer = db_get("Kommentarer")
+
+    for kommentar in Kommentarer:
+        if kommentar["Reply"] == None:
+            kommentar["Reply"] = "False"
+
+    print("Her er kommentarer tablet etter for løkken:", Kommentarer)
+
+
+    #KommentarListe = open("Data/Fildump/Kommentarer/Kommentarfil.json","r", encoding="UTF8")
+    #kommentarer = json.load(KommentarListe)
+    return jsonify(Kommentarer)
     
 
 #Brukes i mod status, returnerer en liste av brukere
-def read_users_file():
-    with open('Data/Brukere.json', 'r') as file:
-        return json.load(file)
+#def read_users_file():
+ #   with open('Data/Brukere.json', 'r') as file:
+  #      return json.load(file)
 
     #Sjekker om brukere er mods
 @app.route("/mod_status", methods=['GET'])
 def mod_status():
     response = {"innlogget": False}
+
     if "username" in session:
         username = session["username"]
-        users = read_users_file()
-        user = next((user for user in users if user["Bruker_id"] == username), None)
-        if user:
-            response["innlogget"] = True
-            response["username"] = username
-            response["mod"] = user["Mod"]
-            session["Mod"] = user["Mod"]
+        response["innlogget"] = True
+        response["username"] = username
+        response["mod"] = db_sjekk_mod("Brukere", session["username"])
+        session["Mod"] = db_sjekk_mod("Brukere", session["username"])
     return jsonify(response)
 
 
@@ -416,7 +443,32 @@ def db_setup(db):
     cursor.execute("""CREATE TABLE IF NOT EXISTS Brukere(
                    Bruker_id varchar(60), 
                    Passord varchar(124), 
-                   Mod boolean);""")
+                   Mod boolean,
+                   Primary key(Bruker_id));""")
+    
+    cursor.execute("""CREATE TABLE IF NOT EXISTS Kommentarer(
+                   Bruker_id varchar(60), 
+                   Comment varchar(500),
+                   Reply int, 
+                   Id int,
+                   Primary key(Id),
+                   Foreign key(Bruker_id) REFERENCES Brukere(Bruker_id));""")
+    
+    cursor.execute("""CREATE TABLE IF NOT EXISTS Media(
+                   Mediet TEXT, 
+                   Id int,
+                   Primary Key(Mediet),
+                   Foreign key(Id) REFERENCES Kommentarer(Id));""")
+    
+    cursor.execute("""CREATE TABLE IF NOT EXISTS Avatarer(
+                   Avataren TEXT, 
+                   Bruker_id int,
+                   Primary Key(Avataren),
+                   Foreign key(Bruker_id) REFERENCES Brukere(Bruker_id));""")
+    
+    #cursor.execute("""UPDATE Brukere SET Mod = 'True' WHERE Mod = 'N' """)
+    #db.commit()
+    
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
     for table in tables:
@@ -428,16 +480,17 @@ def db_setup(db):
     for column in columns:
         print(dict(column))
 
-def db_get(db, tabble):
+def db_get(tabble):
     conn = sqlite3.connect('static/Database.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-    cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+    cursor.execute(f"SELECT * FROM {tabble}")
     tables = cursor.fetchall()
-    for table in tables:
-        if table['name'] == tabble:
-            print("table:",table['name'])
-            return table
+
+    resultat = [dict(row) for row in tables]
+    print(resultat)
+    return resultat
+            
         
 def db_sjekk(table, column, navn):
     conn = sqlite3.connect('static/Database.db')
@@ -452,6 +505,56 @@ def db_sjekk(table, column, navn):
     print("hello, i evalute false")
     
     return False
+
+def db_sjekk_mod(table, Bruker_id):
+    conn = sqlite3.connect('static/Database.db')
+    cursor = conn.cursor()
+    cursor.execute(f"SELECT Mod FROM {table} WHERE Bruker_id = ?", (Bruker_id,))
+    res = cursor.fetchone()
+    if res[0]:
+        return True
+    return False
+
+def db_sjekk_kommentar(table, column):
+    conn = sqlite3.connect('static/Database.db')
+    cursor = conn.cursor()
+    print("DEtte er før vi lager ID")
+    try:
+        cursor.execute(f"SELECT MAX({column}) AS highest_value FROM {table};")
+        res = cursor.fetchone()
+        highest = res[0] if res[0] is not None else 0
+        print("Her sjekker jeg etter høyesete id:", highest)
+    except:
+        highest=0
+        print("Dette er hvis vi ikke fikk Id tidligere:", highest)
+    print("Jeg kom så langt")
+    
+    print("hello, i evalute false")
+    
+    return highest + 1
+
+
+def db_slett_kommentar(table, id):
+    conn = sqlite3.connect('static/Database.db')
+    cursor = conn.cursor()
+    print("Etter å laget cursor")
+    print("Her er iden vi får:", id)
+
+    cursor.execute(f"DELETE FROM {table} WHERE Id = ?", (id,))
+    print("i teorien etter delete funksjonen")
+    conn.commit()
+    print("etter commit")
+
+def db_edit_kommentar(table, id, ny_kommentar):
+    conn = sqlite3.connect('static/Database.db')
+    cursor = conn.cursor()
+    print("Etter å laget cursor")
+    print("Her er iden vi får:", id)
+
+    cursor.execute(f"UPDATE {table} SET COMMENT = ? WHERE Id = ?", (ny_kommentar, id,))
+    print("i teorien etter delete funksjonen")
+    conn.commit()
+    print("etter commit")
 
 def db_sjekk_passord(table, column, navn, passord, column2):
     conn = sqlite3.connect('static/Database.db')
@@ -469,6 +572,17 @@ def db_sjekk_passord(table, column, navn, passord, column2):
     print("hello, i evalute false")
     
     return False
+
+def db_write_comment(tabel, column1, info1, column2, info2, column3, info3, column4, info4):
+    print("Attempting to establish connections")
+    conn = sqlite3.connect('static/Database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    print("Connextion establisehd")
+    query = f"INSERT INTO {tabel} ({column1}, {column2}, {column3}, {column4}) VALUES (?,?,?,?);"
+    cursor.execute(query,(info1, info2, info3, info4))
+    conn.commit()
+    conn.close()
 
 def db_write(tabel, column1, info1, column2, info2, column3, info3):
     print("Attempting to establish connections")

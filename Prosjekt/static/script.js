@@ -340,6 +340,7 @@ function hent_kommentarer(søk = "") {
     fetch("/hent_kommentarer")
         .then(response => response.json())
         .then(data => {
+            console.log("DAta fra app.pY:", data)
             let increment = 1;
             const commentsContainer = document.getElementById("commentsContainer");
 
@@ -366,7 +367,7 @@ function hent_kommentarer(søk = "") {
                         commentsContainer.appendChild(HeleKommentarBox);
                         mediehenter(media, "mediediv" + increment, 700, 500)
                     } else {
-                        const parentCommentId = comment.Reply_to_comment;
+                        const parentCommentId = comment.Reply;
                         const parentCommentBox = commentElementsMap[parentCommentId];
                         if (parentCommentBox) {
                             const repliesContainer = parentCommentBox.querySelector("#ReplyFelt");
@@ -394,18 +395,20 @@ function hent_kommentarer(søk = "") {
 function LagKommentarBox(increment, comment) {
     const HeleKommentarBox = document.createElement("div");
     HeleKommentarBox.setAttribute("id", "KomBox" + increment);
-
+    //comment.Reply_To_Comment = comment.Reply
     const BrukerBox = document.createElement("div");
     BrukerBox.setAttribute("id", "BrukerNavn" + increment);
     BrukerBox.innerHTML = comment.Bruker_id;
 
     const IdBox = document.createElement("div");
     IdBox.setAttribute("id", "IdBox");
+    console.log(comment.Reply);
     if (comment.Reply == "False") {
         IdBox.innerHTML = comment.Id;
         BrukerBox.appendChild(IdBox);
     } else {
-        IdBox.innerHTML = comment.Id + " reply to " + comment.Reply_to_comment;
+        console.log(comment.Reply)
+        IdBox.innerHTML = comment.Id + " reply to " + comment.Reply;
         BrukerBox.appendChild(IdBox);
     }
 
