@@ -357,6 +357,7 @@ function hent_kommentarer(søk = "") {
             data.forEach(comment => {
                 let HeleKommentarBox;
                 let media = comment.media;
+                console.log("Her er comment.media", media)
                 if (søk == "") {
                     HeleKommentarBox = LagKommentarBox(increment, comment, media);
 
@@ -895,17 +896,16 @@ function List_opp_bilde(bilde, lokasjon = "") {
 function mediehenter(medieliste, lokasjon) {
     let tillatte_bildetyper = [".gif", ".png", ".jpg"];
     let tillatte_bildetyper2 = [".jpeg", ".webp"]
-    for (medie in medieliste) {
-        if (medieliste[medie].slice(-4).toLowerCase() == ".mp4") {
-            spill_av_video(medieliste[medie], lokasjon)
-        }
-        else if (tillatte_bildetyper.includes(medieliste[medie].slice(-4).toLowerCase()) || tillatte_bildetyper2.includes(medieliste[medie].slice(-5).toLowerCase())) {
-            List_opp_bilde(medieliste[medie], lokasjon)
-        }
-        else {
-            console.log("Media: " + medieliste[medie] + ", Kan ikke lastes korrekt")
-        }
+    if (medieliste.slice(-4).toLowerCase() == ".mp4") {
+        spill_av_video(medieliste, lokasjon)
     }
+    else if (tillatte_bildetyper.includes(medieliste.slice(-4).toLowerCase()) || tillatte_bildetyper2.includes(medieliste.slice(-5).toLowerCase())) {
+        List_opp_bilde(medieliste, lokasjon)
+    }
+    else {
+        console.log("Media: " + medieliste + ", Kan ikke lastes korrekt")
+    }
+    
 }
 
 function spill_av_video(video, lokasjon = video) {

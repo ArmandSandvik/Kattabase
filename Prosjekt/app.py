@@ -99,6 +99,7 @@ def Lag_kommentar():
        comment = data.get("Comment")
        print("før id")
        id = db_sjekk_kommentar("Kommentarer", "Id")
+       #media = data.get("media")
 
        try:
            print("Krasjer denne?")
@@ -107,7 +108,7 @@ def Lag_kommentar():
        except:
            reply = 0
            print("Dette er etter except:", reply)
-       #media = data.get("media")
+       
 
        db_write_comment("Kommentarer", "Bruker_id", bruker_id, "Reply", reply, "Id", id)
        db_write_comment_ny("Kommentarer_tekst", "Comment", comment, "Id", id)
@@ -270,15 +271,18 @@ def Last_opp():
     Fildumpimg = ("Data/Fildump/Bilder")
     TILLATTE_FILTYPER = [".mp4",".jpeg",".gif", ".png", ".webp", ".jpg"]
     filnavn,filextension = os.path.splitext(Opplastet_fil.filename)
+    id = db_sjekk_kommentar("Kommentarer", "Id")
     
     if filextension.lower() in TILLATTE_FILTYPER:
         if filextension.lower() == ".mp4":
             filnavn = filnavn + filextension
             Opplastet_fil.save(os.path.join(Fildumpvid,filnavn))
+            db_write_comment_ny("Media", "Mediet", filnavn, "Id", id)
             return("Videoen er lastet opp")
         else:
             filnavn = filnavn + filextension
             Opplastet_fil.save(os.path.join(Fildumpimg,filnavn))
+            db_write_comment_ny("Media", "Mediet", filnavn, "Id", id)
             return("Bildet er lastet opp")
 
     else:#Dersom denne returner er filtypen feil
@@ -288,7 +292,7 @@ def Last_opp():
 @app.route("/hent_kommentarer", methods=['GET'])
 def hent_kommentar():
 
-    Kommentarer = db_get("Kommentarer","Kommentarer_tekst")
+    Kommentarer = db_get("Kommentarer","Kommentarer_tekst", "Media")
 
     for kommentar in Kommentarer:
         if kommentar["Reply"] == None:
@@ -410,6 +414,7 @@ def Avatarupload():
 @app.route("/vis_bilde", methods = ['POST'])
 def vis_bilde():
     bilde = request.json["bildenavn"]
+    print("Blir bildenavn kalt riktig?", bilde)
     Fildump = ("Data/Fildump/Bilder")
     for fil in os.listdir(Fildump):
         if bilde == fil:
@@ -449,8 +454,7 @@ def db_setup(db):
                    Primary key(Bruker_id));""")
     
     cursor.execute("""CREATE TABLE IF NOT EXISTS Kommentarer(
-                   Bruker_id varchar(60), 
-                   Comment varchar(500),
+                   Bruker_id varchar(60),
                    Reply int, 
                    Id int,
                    Primary key(Id),
@@ -474,7 +478,7 @@ def db_setup(db):
                    Primary Key(Avataren),
                    Foreign key(Bruker_id) REFERENCES Brukere(Bruker_id));""")
     
-    #cursor.execute("""UPDATE Brukere SET Mod = 'True' WHERE Mod = 'N' """)
+    #cursor.execute("""ALTER TABLE Media RENAME COLUMN Mediet TO media """)
     #db.commit()
     #cursor.execute("""DROP TABLE IF EXISTS Avatarer; """)
     #db.commit()
@@ -492,11 +496,12 @@ def db_setup(db):
     for column in columns:
         print(dict(column))
 
-def db_get(tabble, tabble2):
+def db_get(tabble, tabble2, tabble3):
     conn = sqlite3.connect('static/Database.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-    cursor.execute(f"SELECT * FROM {tabble} JOIN {tabble2} ON {tabble}.Id = {tabble2}.Id")
+    cursor.execute(f"""SELECT * FROM {tabble} JOIN {tabble2} ON {tabble}.Id = {tabble2}.Id
+                    LEFT JOIN {tabble3} ON {tabble}.Id = {tabble3}.Id""")
     tables = cursor.fetchall()
 
     resultat = [dict(row) for row in tables]
