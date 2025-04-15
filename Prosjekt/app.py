@@ -109,7 +109,8 @@ def Lag_kommentar():
            print("Dette er etter except:", reply)
        #media = data.get("media")
 
-       db_write_comment("Kommentarer", "Bruker_id", bruker_id, "Comment", comment, "Reply", reply, "Id", id)
+       db_write_comment("Kommentarer", "Bruker_id", bruker_id, "Reply", reply, "Id", id)
+       db_write_comment_ny("Kommentarer_tekst", "Comment", comment, "Id", id)
        print("Dette er etter db_write_comment funksjonen")
 
 
@@ -149,7 +150,7 @@ def edit_kommentar():
         Id = data.get("Id")
         media = data.get("media")
 
-        db_edit_kommentar("Kommentarer", Id, comment)
+        db_edit_kommentar("Kommentarer_tekst", Id, comment)
         return jsonify(message="Kommentar ble endret!")
 
         #with open("Data/Fildump/Kommentarer/Kommentarfil.json", "r", encoding="UTF8") as KommentarListe:
@@ -228,6 +229,7 @@ def slett_kommentar():
        Id = data.get("Id")
 
        db_slett_kommentar("Kommentarer", Id)
+       db_slett_kommentar("Kommentarer_tekst", Id)
        return jsonify(message="Kommentar ble endret!")
 
 
@@ -286,7 +288,7 @@ def Last_opp():
 @app.route("/hent_kommentarer", methods=['GET'])
 def hent_kommentar():
 
-    Kommentarer = db_get("Kommentarer")
+    Kommentarer = db_get("Kommentarer","Kommentarer_tekst")
 
     for kommentar in Kommentarer:
         if kommentar["Reply"] == None:
@@ -454,6 +456,12 @@ def db_setup(db):
                    Primary key(Id),
                    Foreign key(Bruker_id) REFERENCES Brukere(Bruker_id));""")
     
+    cursor.execute("""CREATE TABLE IF NOT EXISTS Kommentarer_tekst( 
+                   Comment varchar(500),
+                   Id int,
+                   Primary key(Id),
+                   Foreign key(Id) REFERENCES Kommentarer(Id));""")
+    
     cursor.execute("""CREATE TABLE IF NOT EXISTS Media(
                    Mediet TEXT, 
                    Id int,
@@ -462,11 +470,15 @@ def db_setup(db):
     
     cursor.execute("""CREATE TABLE IF NOT EXISTS Avatarer(
                    Avataren TEXT, 
-                   Bruker_id int,
+                   Bruker_id varchar(60),
                    Primary Key(Avataren),
                    Foreign key(Bruker_id) REFERENCES Brukere(Bruker_id));""")
     
     #cursor.execute("""UPDATE Brukere SET Mod = 'True' WHERE Mod = 'N' """)
+    #db.commit()
+    #cursor.execute("""DROP TABLE IF EXISTS Avatarer; """)
+    #db.commit()
+    #cursor.execute("""ALTER TABLE Kommentarer DROP COLUMN Comment;""")
     #db.commit()
     
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
@@ -480,16 +492,18 @@ def db_setup(db):
     for column in columns:
         print(dict(column))
 
-def db_get(tabble):
+def db_get(tabble, tabble2):
     conn = sqlite3.connect('static/Database.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
-    cursor.execute(f"SELECT * FROM {tabble}")
+    cursor.execute(f"SELECT * FROM {tabble} JOIN {tabble2} ON {tabble}.Id = {tabble2}.Id")
     tables = cursor.fetchall()
 
     resultat = [dict(row) for row in tables]
     print(resultat)
     return resultat
+
+
             
         
 def db_sjekk(table, column, navn):
@@ -545,6 +559,8 @@ def db_slett_kommentar(table, id):
     conn.commit()
     print("etter commit")
 
+
+
 def db_edit_kommentar(table, id, ny_kommentar):
     conn = sqlite3.connect('static/Database.db')
     cursor = conn.cursor()
@@ -573,14 +589,25 @@ def db_sjekk_passord(table, column, navn, passord, column2):
     
     return False
 
-def db_write_comment(tabel, column1, info1, column2, info2, column3, info3, column4, info4):
+def db_write_comment(tabel, column1, info1, column3, info3, column4, info4):
     print("Attempting to establish connections")
     conn = sqlite3.connect('static/Database.db')
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
     print("Connextion establisehd")
-    query = f"INSERT INTO {tabel} ({column1}, {column2}, {column3}, {column4}) VALUES (?,?,?,?);"
-    cursor.execute(query,(info1, info2, info3, info4))
+    query = f"INSERT INTO {tabel} ({column1}, {column3}, {column4}) VALUES (?,?,?);"
+    cursor.execute(query,(info1, info3, info4))
+    conn.commit()
+    conn.close()
+
+def db_write_comment_ny(tabel, column1, info1, column3, info3):
+    print("Attempting to establish connections")
+    conn = sqlite3.connect('static/Database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    print("Connextion establisehd")
+    query = f"INSERT INTO {tabel} ({column1}, {column3}) VALUES (?,?);"
+    cursor.execute(query,(info1, info3))
     conn.commit()
     conn.close()
 
