@@ -348,61 +348,67 @@ function AddComment(Brukernavn) {
 };
 
 function hent_kommentarer(søk = "") {
-    fetch("/hent_kommentarer")
-        .then(response => response.json())
-        .then(data => {
-            console.log("DAta fra app.pY:", data)
-            let increment = 1;
-            const commentsContainer = document.getElementById("commentsContainer");
+    fetch("/hent_kommentarer", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ search: søk })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("Data fra app.py:", data)
+        let increment = 1;
+        const commentsContainer = document.getElementById("commentsContainer");
 
-            //Må sette commentsContainer til blank slik at vi ikke lager duplikater
-            commentsContainer.innerHTML = "";
+        // Må sette commentsContainer til blank slik at vi ikke lager duplikater
+        commentsContainer.innerHTML = "";
 
-            const commentsMap = {};
-            data.forEach(comment => {
-                commentsMap[comment.Id] = comment;
-            });
+        const commentsMap = {};
+        data.forEach(comment => {
+            commentsMap[comment.Id] = comment;
+        });
 
-            const commentElementsMap = {};
+        const commentElementsMap = {};
 
-            data.forEach(comment => {
-                let HeleKommentarBox;
-                let media = comment.media;
-                console.log("Her er comment.media", media)
-                if (søk == "") {
-                    HeleKommentarBox = LagKommentarBox(increment, comment, media);
+        data.forEach(comment => {
+            let HeleKommentarBox;
+            let media = comment.media;
+            console.log("Her er comment.media", media)
+            if (søk == "") {
+                HeleKommentarBox = LagKommentarBox(increment, comment, media);
 
+                commentElementsMap[comment.Id] = HeleKommentarBox;
 
-                    commentElementsMap[comment.Id] = HeleKommentarBox;
-
-                    if (comment.Reply == "False") {
-                        commentsContainer.appendChild(HeleKommentarBox);
-                        mediehenter(media, "mediediv" + increment, 700, 500)
-                    } else {
-                        const parentCommentId = comment.Reply;
-                        const parentCommentBox = commentElementsMap[parentCommentId];
-                        if (parentCommentBox) {
-                            const repliesContainer = parentCommentBox.querySelector("#ReplyFelt");
-                            repliesContainer.appendChild(HeleKommentarBox);
-                            mediehenter(media, "mediediv" + increment, 700, 500);
-                        }
-                    }
-
+                if (comment.Reply == "False") {
+                    commentsContainer.appendChild(HeleKommentarBox);
+                    mediehenter(media, "mediediv" + increment, 700, 500)
                 } else {
-                    if (comment.Comment.toLowerCase().includes(søk.toLowerCase()) || comment.Bruker_id.toLowerCase().includes(søk.toLowerCase())) {
-                        HeleKommentarBox = LagKommentarBox(increment, comment, media);
-                        commentsContainer.appendChild(HeleKommentarBox);
-                        mediehenter(media, "mediediv" + increment, 700, 500)
+                    const parentCommentId = comment.Reply;
+                    const parentCommentBox = commentElementsMap[parentCommentId];
+                    if (parentCommentBox) {
+                        const repliesContainer = parentCommentBox.querySelector("#ReplyFelt");
+                        repliesContainer.appendChild(HeleKommentarBox);
+                        mediehenter(media, "mediediv" + increment, 700, 500);
                     }
                 }
 
-                increment += 1;
+            } else {
+                if (
+                    comment.Comment.toLowerCase().includes(søk.toLowerCase()) ||
+                    comment.Bruker_id.toLowerCase().includes(søk.toLowerCase())
+                ) {
+                    HeleKommentarBox = LagKommentarBox(increment, comment, media);
+                    commentsContainer.appendChild(HeleKommentarBox);
+                    mediehenter(media, "mediediv" + increment, 700, 500)
+                }
+            }
 
-
-            });
-
+            increment += 1;
         });
+    });
 }
+
 
 function LagKommentarBox(increment, comment) {
     const HeleKommentarBox = document.createElement("div");

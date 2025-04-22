@@ -298,10 +298,15 @@ def Last_opp():
         return("Filtypen er feil, husk mp4 for videoer eller jpeg, gif, png, webp, jpg for bilder")
 
 #Henter kommentarene
-@app.route("/hent_kommentarer", methods=['GET'])
+@app.route("/hent_kommentarer", methods=['GET','POST'])
 def hent_kommentar():
 
-    Kommentarer = db_get("Kommentarer","Kommentarer_tekst", "Media")
+    søk = request.get_json().get("search", "")
+
+    if søk == "":
+        Kommentarer = db_get("Kommentarer","Kommentarer_tekst", "Media")
+    else:
+        Kommentarer = db_get("Kommentarer","Kommentarer_tekst", "Media")
 
     for kommentar in Kommentarer:
         if kommentar["Reply"] == None:
@@ -533,6 +538,22 @@ def db_get(tabble, tabble2, tabble3):
     cursor = conn.cursor()
     cursor.execute(f"""SELECT * FROM {tabble} JOIN {tabble2} ON {tabble}.Id = {tabble2}.Id
                     LEFT JOIN {tabble3} ON {tabble}.Id = {tabble3}.Id""")
+    tables = cursor.fetchall()
+
+    resultat = [dict(row) for row in tables]
+    print(resultat)
+    return resultat
+
+def db_get_filter(tabble, tabble2, tabble3, filter):
+    conn = sqlite3.connect('static/Database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    query = f"""SELECT * FROM {tabble} JOIN {tabble2} ON {tabble}.Id = {tabble2}.Id
+                    LEFT JOIN {tabble3} ON {tabble}.Id = {tabble3}.Id
+                    WHERE Comment LIKE ?"""
+    
+    cursor.execute(query, (f'%{filter}'))
+
     tables = cursor.fetchall()
 
     resultat = [dict(row) for row in tables]
