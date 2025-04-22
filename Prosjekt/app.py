@@ -120,6 +120,7 @@ def Lag_kommentar():
        #kommentarer = json.load(KommentarListe)
 
        session["username"] = bruker_id
+       return jsonify(message="Kommentar og evt. media lagret!")
 
        
 
@@ -277,12 +278,12 @@ def Last_opp():
         if filextension.lower() == ".mp4":
             filnavn = filnavn + filextension
             Opplastet_fil.save(os.path.join(Fildumpvid,filnavn))
-            db_write_comment_ny("Media", "Mediet", filnavn, "Id", id)
+            db_write_comment_ny("Media", "media", filnavn, "Id", id)
             return("Videoen er lastet opp")
         else:
             filnavn = filnavn + filextension
             Opplastet_fil.save(os.path.join(Fildumpimg,filnavn))
-            db_write_comment_ny("Media", "Mediet", filnavn, "Id", id)
+            db_write_comment_ny("Media", "media", filnavn, "Id", id)
             return("Bildet er lastet opp")
 
     else:#Dersom denne returner er filtypen feil
@@ -343,10 +344,8 @@ def logout():
 #Henter alle videoene som er lagret i videofildumpen
 @app.route("/videoliste")
 def videoliste():
-    Fildump = ("Data/Fildump/Videoer")
-    videoliste=[]
-    for video in os.listdir(Fildump):
-        videoliste.append(video)
+    videoliste= db_finn_videoer()
+    print(videoliste)
 
     return (jsonify(videoliste))
 
@@ -396,12 +395,15 @@ def Avatarupload():
     filnavn,filextension = os.path.splitext(Opplastet_fil.filename)
 
 
-    filnavn = session["username"] + filextension
+    filnavn = Opplastet_fil.name
+    print(filnavn)
+    
+    db_write_comment_ny("Avatarer", "Avataren", filnavn, "Bruker_id", session["username"])
     
     if filextension.lower() in TILLATTE_FILTYPER:
         for filtype in TILLATTE_FILTYPER:
-            if os.path.exists("Data/Fildump/Avatar/" + session["username"] + filtype):
-                os.remove("Data/Fildump/Avatar/" + session["username"] + filtype)
+            if os.path.exists("Data/Fildump/Avatar/" + filnavn):
+                os.remove("Data/Fildump/Avatar/" + filnavn)
         
         
         Opplastet_fil.save(os.path.join(Fildump,filnavn))
@@ -414,13 +416,17 @@ def Avatarupload():
 @app.route("/vis_bilde", methods = ['POST'])
 def vis_bilde():
     bilde = request.json["bildenavn"]
+    id = request.json["Id"]
     print("Blir bildenavn kalt riktig?", bilde)
-    Fildump = ("Data/Fildump/Bilder")
-    for fil in os.listdir(Fildump):
-        if bilde == fil:
-            return (send_file("Data/Fildump/Bilder/" + fil, mimetype='image/*'))
+    print("Her er iden vi får fra magic:", id )
+    fil = db_finn_media("Media", "Id", id)
+    print(fil)
+    #Fildump = ("Data/Fildump/Bilder")
+    #for fil in os.listdir(Fildump):
+     #   if bilde == fil:
+    return (send_file("Data/Fildump/Bilder/" + fil, mimetype='image/*'))
         
-    abort(404)
+    #abort(404)
 
 #Henter Detektiv Kot
 @app.route("/logo")
@@ -467,9 +473,9 @@ def db_setup(db):
                    Foreign key(Id) REFERENCES Kommentarer(Id));""")
     
     cursor.execute("""CREATE TABLE IF NOT EXISTS Media(
-                   Mediet TEXT, 
+                   media TEXT, 
                    Id int,
-                   Primary Key(Mediet),
+                   Primary Key(media),
                    Foreign key(Id) REFERENCES Kommentarer(Id));""")
     
     cursor.execute("""CREATE TABLE IF NOT EXISTS Avatarer(
@@ -615,6 +621,34 @@ def db_write_comment_ny(tabel, column1, info1, column3, info3):
     cursor.execute(query,(info1, info3))
     conn.commit()
     conn.close()
+
+def db_finn_media(tabel, column1, info1):
+    print("Attempting to establish connections")
+    conn = sqlite3.connect('static/Database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    print("Connextion establisehd")
+    query = f"SELECT media FROM {tabel} WHERE {column1} = ?;"
+    cursor.execute(query,(info1,))
+    result = cursor.fetchone()
+    conn.close()
+    if result:
+        return result["media"]
+    else:
+        return None
+    
+def db_finn_videoer():
+    print("Attempting to establish connections")
+    conn = sqlite3.connect('static/Database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    print("Connextion establisehd")
+    query = f"SELECT * FROM Media WHERE media LIKE '%.mp4';"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    conn.close()
+    return [row["media"] for row in result]
+
 
 def db_write(tabel, column1, info1, column2, info2, column3, info3):
     print("Attempting to establish connections")

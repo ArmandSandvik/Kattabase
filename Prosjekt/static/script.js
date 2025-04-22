@@ -760,6 +760,7 @@ function List_opp_videoer(søk = "") {
     fetch("/videoliste")
         .then(response => response.json())
         .then(data => {
+            console.log("Her er resultatet fra videoliste", data)
 
 
             for (i = 0; i < data.length; i++) {
@@ -871,13 +872,18 @@ function last_opp_avatar(lokasjon = "navigation") {
 }
 
 function List_opp_bilde(bilde, lokasjon = "") {
+    id= parseInt(lokasjon.replace("mediediv",""));
+    
+    console.log("Her er potensielle id", typeof(id))
     fetch("/vis_bilde", {
         method: "POST",
         headers: {
             "content-type": "application/json; charset=UTF-8"
         },
         body: JSON.stringify({
-            "bildenavn": bilde
+            "bildenavn": bilde,
+            "Id": id
+            
         })
 
     })
@@ -894,6 +900,10 @@ function List_opp_bilde(bilde, lokasjon = "") {
 }
 
 function mediehenter(medieliste, lokasjon) {
+    if (!medieliste || typeof medieliste !== "string") {
+        console.warn("Ingen gyldig mediafil for:", lokasjon);
+        return;
+    }
     let tillatte_bildetyper = [".gif", ".png", ".jpg"];
     let tillatte_bildetyper2 = [".jpeg", ".webp"]
     if (medieliste.slice(-4).toLowerCase() == ".mp4") {
