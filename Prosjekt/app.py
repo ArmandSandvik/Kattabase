@@ -306,7 +306,7 @@ def hent_kommentar():
     if søk == "":
         Kommentarer = db_get("Kommentarer","Kommentarer_tekst", "Media")
     else:
-        Kommentarer = db_get("Kommentarer","Kommentarer_tekst", "Media")
+        Kommentarer = db_get_filter("Kommentarer","Kommentarer_tekst", "Media", søk)
 
     for kommentar in Kommentarer:
         if kommentar["Reply"] == None:
@@ -552,7 +552,7 @@ def db_get_filter(tabble, tabble2, tabble3, filter):
                     LEFT JOIN {tabble3} ON {tabble}.Id = {tabble3}.Id
                     WHERE Comment LIKE ?"""
     
-    cursor.execute(query, (f'%{filter}'))
+    cursor.execute(query, (f'%{filter}%',))
 
     tables = cursor.fetchall()
 
