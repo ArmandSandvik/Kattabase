@@ -362,26 +362,18 @@ def spill_av_video():
 def Avatar():
     data = request.json
     avatar = data["navn"]
-    Fildump = ("Data/Fildump/Avatar")
-    for fil in os.listdir(Fildump):
+    print(db_avatar_sjekk(avatar))             
 
-        if avatar in fil:
-            TILLATTE_FILTYPER = [".jpeg",".gif", ".png", ".webp", ".jpg"]
-            for extension in TILLATTE_FILTYPER:
-
-                avatartry = avatar + extension
-                
-
-                try:
+    try:
             
-                    return (send_file("Data/Fildump/Avatar/" + avatartry, mimetype='image/*'))
-                except:
-                    continue
+        return (send_file("Data/Fildump/Avatar/" + db_avatar_sjekk(avatar), mimetype='image/*'))
+    except:
+        return (send_file("Data/Fildump/Avatar" + "/averageuser.WEBP", mimetype='image/webp'))
             
 
         
                 
-    return (send_file("Data/Fildump/Avatar" + "/averageuser.WEBP", mimetype='image/webp'))
+    
 
 
 #Lar brukerene laste opp avatarer
@@ -393,12 +385,15 @@ def Avatarupload():
     Fildump = ("Data/Fildump/Avatar")
     TILLATTE_FILTYPER = [".jpeg",".gif", ".png", ".webp", ".jpg"]
     filnavn,filextension = os.path.splitext(Opplastet_fil.filename)
+    filnavn = filnavn + filextension
 
 
-    filnavn = Opplastet_fil.name
+    #filnavn = Opplastet_fil.filename
     print(filnavn)
     
-    db_write_comment_ny("Avatarer", "Avataren", filnavn, "Bruker_id", session["username"])
+    db_write_avatar("Avatarer", "Avataren", filnavn, "Bruker_id", session["username"])
+
+    
     
     if filextension.lower() in TILLATTE_FILTYPER:
         for filtype in TILLATTE_FILTYPER:
@@ -417,10 +412,10 @@ def Avatarupload():
 def vis_bilde():
     bilde = request.json["bildenavn"]
     id = request.json["Id"]
-    print("Blir bildenavn kalt riktig?", bilde)
-    print("Her er iden vi får fra magic:", id )
+    #print("Blir bildenavn kalt riktig?", bilde)
+    #print("Her er iden vi får fra magic:", id )
     fil = db_finn_media("Media", "Id", id)
-    print(fil)
+    #print(fil)
     #Fildump = ("Data/Fildump/Bilder")
     #for fil in os.listdir(Fildump):
      #   if bilde == fil:
@@ -477,11 +472,13 @@ def db_setup(db):
                    Id int,
                    Primary Key(media),
                    Foreign key(Id) REFERENCES Kommentarer(Id));""")
+    #cursor.execute("""DROP TABLE IF EXISTS Avatarer; """)
+    #db.commit()
     
     cursor.execute("""CREATE TABLE IF NOT EXISTS Avatarer(
                    Avataren TEXT, 
                    Bruker_id varchar(60),
-                   Primary Key(Avataren),
+                   Primary Key(Bruker_id),
                    Foreign key(Bruker_id) REFERENCES Brukere(Bruker_id));""")
     
     #cursor.execute("""ALTER TABLE Media RENAME COLUMN Mediet TO media """)
@@ -493,8 +490,8 @@ def db_setup(db):
     
     cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
     tables = cursor.fetchall()
-    for table in tables:
-        print("Table:", table['name'])
+    #for table in tables:
+        #print("Table:", table['name'])
     
     cursor.execute("PRAGMA table_info(Brukere);")
     columns = cursor.fetchall()
@@ -522,7 +519,7 @@ def db_sjekk(table, column, navn):
     cursor = conn.cursor()
     cursor.execute(f"SELECT {column} FROM {table};")
     res = cursor.fetchall()
-    print("Jeg kom så langt")
+    #print("Jeg kom så langt")
     for index in res:
         if index[0] == navn:
             print("Hello, this is true")
@@ -530,6 +527,20 @@ def db_sjekk(table, column, navn):
     print("hello, i evalute false")
     
     return False
+
+def db_avatar_sjekk(bruker_id):
+    conn = sqlite3.connect('static/Database.db')
+    cursor = conn.cursor()
+    cursor.execute("SELECT Avataren FROM Avatarer WHERE Bruker_id = ?;", (bruker_id,))
+    result = cursor.fetchone()
+
+    if result:
+        return result[0]
+    else:
+        print("Fant ingen avatar for:", bruker_id)
+        return ("averageuser.WEBP")
+    
+
 
 def db_sjekk_mod(table, Bruker_id):
     conn = sqlite3.connect('static/Database.db')
@@ -543,7 +554,7 @@ def db_sjekk_mod(table, Bruker_id):
 def db_sjekk_kommentar(table, column):
     conn = sqlite3.connect('static/Database.db')
     cursor = conn.cursor()
-    print("DEtte er før vi lager ID")
+    #print("DEtte er før vi lager ID")
     try:
         cursor.execute(f"SELECT MAX({column}) AS highest_value FROM {table};")
         res = cursor.fetchone()
@@ -618,6 +629,20 @@ def db_write_comment_ny(tabel, column1, info1, column3, info3):
     cursor = conn.cursor()
     print("Connextion establisehd")
     query = f"INSERT INTO {tabel} ({column1}, {column3}) VALUES (?,?);"
+    cursor.execute(query,(info1, info3))
+    conn.commit()
+    conn.close()
+
+def db_write_avatar(tabel, column1, info1, column3, info3):
+    print("Attempting to establish connections")
+    conn = sqlite3.connect('static/Database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    print("Connextion establisehd")
+    query = f""" 
+    INSERT OR REPLACE INTO {tabel} ({column1}, {column3})
+    VALUES (?, ?);
+    """
     cursor.execute(query,(info1, info3))
     conn.commit()
     conn.close()
