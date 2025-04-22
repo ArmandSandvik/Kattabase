@@ -63,8 +63,13 @@ body {
 }
 
 #footer {
-    height: 90px;
+    height: auto;
     background-color: blue;
+}
+
+#kommentarStatistikk {
+    background-color: beige;
+    text-align: center;
 }
 
 [id^="KomBox"]{

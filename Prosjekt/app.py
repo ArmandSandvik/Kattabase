@@ -84,6 +84,14 @@ def registrer():
         #Ved feil gir vi en servererror feil
         return abort(500)
     
+@app.route("/slett_bruker", methods=['POST'])
+def slett_bruker():
+       data = request.json
+       bruker_id = session["username"]
+
+       db_slett_bruker(bruker_id)
+       session.pop("username", None)
+       return jsonify(message="Brukeren ble purged!")
 
 #Håndterer kommentarer
 @app.route("/kommenter", methods=['POST'])
@@ -356,6 +364,12 @@ def spill_av_video():
     videonavn = data["videonavn"]
     return (send_file("Data/Fildump/Videoer/" + videonavn, mimetype='video/mp4'))
 
+@app.route("/kommentar_statistikk", methods=["GET"])
+def kommentar_statistikk():
+    data = db_aggro_group()
+    return jsonify(data)
+
+
 
 #Henter avatarene til brukerne
 @app.route("/Avatar", methods=['POST'])
@@ -448,38 +462,52 @@ def db_setup(db):
     print("Db_setup kjores")
     g.db = sqlite3.connect('static/Database.db')
     cursor = db.cursor()
+    cursor.execute("PRAGMA foreign_keys = ON")
     cursor.execute("""CREATE TABLE IF NOT EXISTS Brukere(
                    Bruker_id varchar(60), 
                    Passord varchar(124), 
                    Mod boolean,
                    Primary key(Bruker_id));""")
     
+    
+    #cursor.execute("""DROP TABLE IF EXISTS Kommentarer_tekst; """)
+    #db.commit()
+    #cursor.execute("""DROP TABLE IF EXISTS Media; """)
+    #db.commit()
+    #cursor.execute("""DROP TABLE IF EXISTS Avatarer; """)
+    #db.commit()
+    #cursor.execute("""DROP TABLE IF EXISTS Kommentarer; """)
+    #db.commit()
+    
     cursor.execute("""CREATE TABLE IF NOT EXISTS Kommentarer(
                    Bruker_id varchar(60),
                    Reply int, 
                    Id int,
                    Primary key(Id),
-                   Foreign key(Bruker_id) REFERENCES Brukere(Bruker_id));""")
+                   Foreign key(Bruker_id) REFERENCES Brukere(Bruker_id) ON DELETE CASCADE);""")
+    
+    
     
     cursor.execute("""CREATE TABLE IF NOT EXISTS Kommentarer_tekst( 
                    Comment varchar(500),
                    Id int,
                    Primary key(Id),
-                   Foreign key(Id) REFERENCES Kommentarer(Id));""")
+                   Foreign key(Id) REFERENCES Kommentarer(Id) ON DELETE CASCADE);""")
+    
+    
     
     cursor.execute("""CREATE TABLE IF NOT EXISTS Media(
                    media TEXT, 
                    Id int,
                    Primary Key(media),
-                   Foreign key(Id) REFERENCES Kommentarer(Id));""")
-    #cursor.execute("""DROP TABLE IF EXISTS Avatarer; """)
-    #db.commit()
+                   Foreign key(Id) REFERENCES Kommentarer(Id) ON DELETE CASCADE);""")
+    
     
     cursor.execute("""CREATE TABLE IF NOT EXISTS Avatarer(
                    Avataren TEXT, 
                    Bruker_id varchar(60),
                    Primary Key(Bruker_id),
-                   Foreign key(Bruker_id) REFERENCES Brukere(Bruker_id));""")
+                   Foreign key(Bruker_id) REFERENCES Brukere(Bruker_id) ON DELETE CASCADE);""")
     
     #cursor.execute("""ALTER TABLE Media RENAME COLUMN Mediet TO media """)
     #db.commit()
@@ -511,7 +539,21 @@ def db_get(tabble, tabble2, tabble3):
     print(resultat)
     return resultat
 
+def db_aggro_group():
+    conn = sqlite3.connect('static/Database.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
 
+    query = """
+    SELECT Bruker_id, COUNT(*) AS antall_kommentarer
+    FROM Kommentarer
+    GROUP BY Bruker_id;
+    """
+    cursor.execute(query)
+    result = cursor.fetchall()
+    conn.close()
+
+    return [dict(row) for row in result]
             
         
 def db_sjekk(table, column, navn):
@@ -577,6 +619,17 @@ def db_slett_kommentar(table, id):
     print("Her er iden vi får:", id)
 
     cursor.execute(f"DELETE FROM {table} WHERE Id = ?", (id,))
+    print("i teorien etter delete funksjonen")
+    conn.commit()
+    print("etter commit")
+
+def db_slett_bruker(bruker_id):
+    conn = sqlite3.connect('static/Database.db')
+    cursor = conn.cursor()
+    print("Etter å laget cursor")
+    print("Her er iden vi får:", id)
+
+    cursor.execute(f"DELETE FROM Brukere WHERE Bruker_id = ?", (bruker_id,))
     print("i teorien etter delete funksjonen")
     conn.commit()
     print("etter commit")

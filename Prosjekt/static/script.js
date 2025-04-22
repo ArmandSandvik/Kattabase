@@ -14,6 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
     header.appendChild(bruker);
     Search()
     logo()
+    hentKommentarStatistikk()
     const LoginOrReg = document.createElement("div");
     LoginOrReg.setAttribute("id", "LoginOrReg");
     LoginOrReg.innerHTML = "<p>Login or Register</p>";
@@ -166,12 +167,22 @@ document.addEventListener("DOMContentLoaded", function () {
                 const LogoutBtn = document.createElement("div");
                 LogoutBtn.setAttribute("class", "LoginBtn");
                 LoginOrReg.innerHTML = "<p>Logg ut!</p>";
+                const SlettBruker = document.createElement("div");
+                SlettBruker.setAttribute("class", "LoginBtn")
+                SlettBruker.innerHTML = "<p>Slett Bruker!</p>";
+                SlettBruker.appendChild(LoginOrReg);
                 LogoutBtn.appendChild(LoginOrReg);
                 header.appendChild(LogoutBtn);
+                header.appendChild(SlettBruker);
 
                 last_avatar(getcookies("Navn"));
                 AddComment(data.username);
                 EndreAvatar();
+
+                SlettBruker.addEventListener("click", function () {
+                    if(er_du_sikker()){
+                        Slett_bruker();
+                    };})
 
                 LogoutBtn.addEventListener("click", function () {
                     if(er_du_sikker()){
@@ -1007,6 +1018,44 @@ function Search() {
 
 
 }
+
+function hentKommentarStatistikk() {
+    fetch("/kommentar_statistikk")
+        .then(res => res.json())
+        .then(data => {
+            const komStat = document.createElement("div");
+            komStat.setAttribute("id", "kommentarStatistikk");
+
+            let html = "<h4>Antall kommentarer per bruker:</h4><ul>";
+            data.forEach(row => {
+                html += `<li>${row.Bruker_id}: ${row.antall_kommentarer}</li>`;
+            });
+            html += "</ul>";
+            komStat.innerHTML = html;
+
+            const footer = document.getElementById("footer");
+            footer.appendChild(komStat);
+        });
+    }
+
+    function Slett_bruker() {
+        fetch("/slett_bruker", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({})  // eller { Bruker_id: "..." } hvis du vil sende eksplisitt
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data.message);
+            alert("Brukeren er slettet. Logger deg ut.");
+            window.location.reload(); // eller redirect til forsiden
+        });
+    }
+
+    
+
 
 function logo() {
     fetch("/logo")
