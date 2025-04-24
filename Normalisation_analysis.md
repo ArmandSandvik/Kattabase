@@ -1,0 +1,12 @@
+Normalisation analysis:
+THis social media platform is intended as a hybrid of youtube and reddit. Its users consists of people who wish to share videos and talk through comments.
+Since we are constrained to relational databases the data to be stored consist of names, id numbers, text and other data consistent with relational databases. Videos and pictures will be stored by name in the database so that they can be retrieved sepparately from the filesystem.
+
+Our database consists of two main entities, users(or rather their accounts, but for simplicity we will call them users) and comments. Each user has a username, password, modstatus and avatar. The attributes username, password and modstatus will make up the core table(account table). Since the avatar is implied from the username, the dependency username -> avatar would arise if avatar was on the same table as username, as such avatar has been moved to its own table(avatar table) with username as primary and foreign key referencing the main account table.
+
+The table of the other entity(Comment table) requires the attributes comment id(id), username, which if any comment the current comment is replying to(Reply), comment_text and media. The core comment table(Kommentarer) must consist of Id username(Bruker_id) and Reply. Since these values are independent. the comments Id implies both Comment_text(Comment) and media, as such these will have to be moved to another table. However, the Comment_text(Comment) can also imply media, and vice versa (assuming no duplicates). As such two new tables kommentarer_teks, containting the comment Id and the Comment_text with comment Id as foreign key and primary key have to be made, as well as Media table with media as its primary key, and comment Id as foreign key. This is because media may also have to be treated sepparately as the site can also play videos on its own independant of the comment it is strictly speaking part of.
+
+The relationship between Brukere and Avatarer is one-to-one. As each user may have one, and exactly one avatar.
+The relationship of Brukere to Kommentarer is one-to-many. as each user may have 0 to infinite comments.
+The relationship between Kommentarer_tekst and kommentarer is one-to-one as each comment may only have a single text.
+THe relationship between Kommentarer and Media is an optional one-to-one as each comment may or may not have a media, but may only have one if there is one. 
