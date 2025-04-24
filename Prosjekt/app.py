@@ -240,7 +240,8 @@ def slett_kommentar():
        bruker_id = data.get("Bruker_id")
        comment = data.get("Comment")
        Id = data.get("Id")
-
+       
+       db_slett_kommentar("Media", Id)
        db_slett_kommentar("Kommentarer", Id)
        db_slett_kommentar("Kommentarer_tekst", Id)
        return jsonify(message="Kommentar ble endret!")
