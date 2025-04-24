@@ -204,7 +204,10 @@ def reply_kommentar():
         #KommentarListe = open("Data/Fildump/Kommentarer/Kommentarfil.json","r", encoding="UTF8")
         #kommentarer = json.load(KommentarListe)
 
-        db_write_comment("Kommentarer", "Bruker_id", bruker_id, "Comment", comment, "Reply", reply, "Id", id)
+        #db_write_comment("Kommentarer", "Bruker_id", bruker_id, "Comment", comment, "Reply", reply, "Id", id)
+        db_write_comment("Kommentarer", "Bruker_id", bruker_id, "Reply", reply, "Id", id)
+        db_write_comment_ny("Kommentarer_tekst", "Comment", comment, "Id", id)
+
 
         #fant_kommentaren = False
         #if kommentarer:
